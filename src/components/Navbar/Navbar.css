@@ -1,0 +1,39 @@
+
+.Navbar {
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.Title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 50px;
+}
+
+.menu li {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.menu li:hover {
+  color: #61dafb;
+}
+
+/* Optional: Add styles for active link */
+.menu li a {
+  text-decoration: none;
+  color: white;
+}
+
+.menu li a:hover {
+  color: #61dafb;
+}
+
