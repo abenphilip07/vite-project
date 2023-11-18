@@ -4,9 +4,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SearchByIng from './pages/SearchByIng';
 import SearchByDish from './pages/SearchByDish';
 import About from './pages/About';
-
+import { ChakraProvider } from '@chakra-ui/react'
+  
+ 
 function App() {
   return (
+  <ChakraProvider>
     <BrowserRouter>
       <div className="app">
         <Navbar />
@@ -17,6 +20,7 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+    </ChakraProvider>
   );
 }
 

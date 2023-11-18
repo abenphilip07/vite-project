@@ -1,31 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import React, { useState } from 'react';
+import AsyncSelect from 'react-select/async';
+import axios from 'axios';
+import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 
-const SearchByDish = () => {
-  const [options, setOptions] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:4000/v1/listingredients")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('API Response:', data);
-        const newOptions = data.ingredients.map((ingredient) => ({
-          label: ingredient,
-          value: ingredient,
-        }));
-        setOptions(newOptions);
-      })
-      .catch((error) => {
-        console.error('Error fetching recipes:', error);
-      });
-  }, []); // The empty dependency array ensures the effect runs only once on component mount
-
-  const handleChange = (selectedOption) => {
-    console.log(selectedOption);
-    // Your logic here
-  };
-
-  return <Select options={options} onChange={handleChange} isMulti/>;
+const loadOptions = (inputValue, callback) => {
+  axios.get('http://localhost:4000/v1/listingredients')
+    .then(res => {
+      let data;
+      if (inputValue) {
+        data = res.data.ingredients
+          .filter(i => i.toLowerCase().includes(inputValue.toLowerCase()))
+          .map(item => ({ label: item, value: item }));
+      } else {
+        data = res.data.ingredients.map(item => ({ label: item, value: item }));
+      }
+      callback(data);
+    });
 };
 
-export default SearchByDish;
+const SearchByIng = () => {
+  const [recipes, setRecipes] = useState([]);
+
+  const handleInputChange = (selectedOptions) => {
+    const ingredients = selectedOptions.map(option => option.value).join(',');
+    axios.get(`http://localhost:4000/v1/search?ingredients=${ingredients}`)
+      .then(res => {
+        setRecipes(res.data.recipes);
+      });
+  };
+
+  return (
+    <Box p={5}>
+      <AsyncSelect cacheOptions defaultOptions loadOptions={loadOptions} isMulti onChange={handleInputChange} pb={5} />
+      <br></br>
+      <SimpleGrid columns={3} spacing={10}>
+        {recipes.map(recipe => (
+          <Box key={recipe.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Box p="6">
+              <Text fontWeight="bold" textTransform="uppercase" fontSize="lg" mb={2}>
+                {recipe.title}
+              </Text>
+            </Box>
+          </Box>
+        ))}
+      </SimpleGrid>
+    </Box>
+  );
+};
+
+export default SearchByIng;
