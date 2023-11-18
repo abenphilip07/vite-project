@@ -5,13 +5,13 @@ const SearchByDish = () => {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/v1/recipes")
+    fetch("http://localhost:4000/v1/listingredients")
       .then((response) => response.json())
       .then((data) => {
-        const recipes = data.recipes;
-        const newOptions = recipes.map((recipe) => ({
-          value: recipe.id,
-          label: recipe.title,
+        console.log('API Response:', data);
+        const newOptions = data.ingredients.map((ingredient) => ({
+          label: ingredient,
+          value: ingredient,
         }));
         setOptions(newOptions);
       })
