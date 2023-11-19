@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import axios from 'axios';
-import { Box, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from '@chakra-ui/react';
 
 const loadOptions = (inputValue, callback) => {
   axios.get('http://localhost:4000/v1/listingredients')
@@ -32,18 +32,27 @@ const SearchByIng = () => {
   return (
     <Box p={5}>
       <AsyncSelect cacheOptions defaultOptions loadOptions={loadOptions} isMulti onChange={handleInputChange} pb={5} />
-      <br></br>
-      <SimpleGrid columns={3} spacing={10}>
-        {recipes.map(recipe => (
-          <Box key={recipe.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
-            <Box p="6">
-              <Text fontWeight="bold" textTransform="uppercase" fontSize="lg" mb={2}>
-                {recipe.title}
-              </Text>
-            </Box>
-          </Box>
-        ))}
-      </SimpleGrid>
+      <br />
+      <Table variant="simple">
+        <Thead>
+          <Tr>
+            <Th>Title</Th>
+            <Th>Cook Time</Th>
+            <Th>Difficulty</Th>
+            <Th>Cuisine</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {recipes.map(recipe => (
+            <Tr key={recipe.id}>
+              <Td>{recipe.title}</Td>
+              <Td>{recipe.cook_time}</Td>
+              <Td>{recipe.difficulty}</Td>
+              <Td>{recipe.cuisine_name}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
     </Box>
   );
 };
