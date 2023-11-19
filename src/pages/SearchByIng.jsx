@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import AsyncSelect from 'react-select/async';
-import axios from 'axios';
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from '@chakra-ui/react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import AsyncSelect from "react-select/async";
+import axios from "axios";
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from "@chakra-ui/react";
 
 const loadOptions = (inputValue, callback) => {
-  axios.get('http://localhost:4000/v1/listingredients')
-    .then(res => {
-      let data;
-      if (inputValue) {
-        data = res.data.ingredients
-          .filter(i => i.toLowerCase().includes(inputValue.toLowerCase()))
-          .map(item => ({ label: item, value: item }));
-      } else {
-        data = res.data.ingredients.map(item => ({ label: item, value: item }));
-      }
-      callback(data);
-    });
+  axios.get("https://recipe-search-88c61755925f.herokuapp.com/v1/listingredients").then((res) => {
+    let data;
+    if (inputValue) {
+      data = res.data.ingredients
+        .filter((i) => i.toLowerCase().includes(inputValue.toLowerCase()))
+        .map((item) => ({ label: item, value: item }));
+    } else {
+      data = res.data.ingredients.map((item) => ({ label: item, value: item }));
+    }
+    callback(data);
+  });
 };
 
 const SearchByIng = () => {
   const [recipes, setRecipes] = useState([]);
 
   const handleInputChange = (selectedOptions) => {
-    const ingredients = selectedOptions.map(option => option.value).join(',');
-    axios.get(`http://localhost:4000/v1/search?ingredients=${ingredients}`)
-      .then(res => {
+    const ingredients = selectedOptions.map((option) => option.value).join(",");
+    axios
+      .get(`https://recipe-search-88c61755925f.herokuapp.com/v1/search?ingredients=${ingredients}`)
+      .then((res) => {
         setRecipes(res.data.recipes);
       });
   };
 
   return (
     <Box p={5}>
-      <AsyncSelect cacheOptions defaultOptions loadOptions={loadOptions} isMulti onChange={handleInputChange} pb={5} />
+      <AsyncSelect
+        cacheOptions
+        defaultOptions
+        loadOptions={loadOptions}
+        isMulti
+        onChange={handleInputChange}
+        pb={5}
+      />
       <br />
       <Table variant="simple">
         <Thead>
@@ -45,7 +52,7 @@ const SearchByIng = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {recipes.map(recipe => (
+          {recipes.map((recipe) => (
             <Tr key={recipe.id}>
               <Td>{recipe.title}</Td>
               <Td>{recipe.cook_time}</Td>
