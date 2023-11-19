@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className="Navbar">
       <div className="Title">
-        <p>Athif is cooking!</p>
+        <p>Recipe Search</p>
       </div>
       <ul className="menu">
         <li><Link to="/SearchByIng">SearchByIng</Link></li>
