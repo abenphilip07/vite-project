@@ -3,6 +3,7 @@ import Select from 'react-select';
 
 const SearchByDish = () => {
   const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:4000/v1/recipes")
@@ -12,20 +13,30 @@ const SearchByDish = () => {
         const newOptions = recipes.map((recipe) => ({
           value: recipe.id,
           label: recipe.title,
+          insts: recipe.instructions,
         }));
         setOptions(newOptions);
       })
       .catch((error) => {
         console.error('Error fetching recipes:', error);
       });
-  }, []); // The empty dependency array ensures the effect runs only once on component mount
+  }, []); 
 
   const handleChange = (selectedOption) => {
-    console.log(selectedOption);
-    // Your logic here
+    setSelectedOption(selectedOption);
   };
 
-  return <Select options={options} onChange={handleChange} />;
+  return (
+    <div>
+      <Select options={options} onChange={handleChange} />
+      {selectedOption && (
+        <div>
+          <h2>Instructions</h2>
+          <p>{selectedOption.insts}</p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default SearchByDish;

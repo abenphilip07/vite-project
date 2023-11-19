@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AsyncSelect from 'react-select/async';
 import axios from 'axios';
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from '@chakra-ui/react';
@@ -40,6 +41,7 @@ const SearchByIng = () => {
             <Th>Cook Time</Th>
             <Th>Difficulty</Th>
             <Th>Cuisine</Th>
+            <Th>Action</Th> {/* New column for the "View Recipe" button */}
           </Tr>
         </Thead>
         <Tbody>
@@ -49,6 +51,12 @@ const SearchByIng = () => {
               <Td>{recipe.cook_time}</Td>
               <Td>{recipe.difficulty}</Td>
               <Td>{recipe.cuisine_name}</Td>
+              <Td>
+                {/* Link to a new page with recipe instructions */}
+                <Link to={`/recipe/${recipe.id}`}>
+                  <button>View Recipe</button>
+                </Link>
+              </Td>
             </Tr>
           ))}
         </Tbody>
