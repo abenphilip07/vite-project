@@ -9,8 +9,8 @@ const Navbar = () => {
         <p>Recipe Search</p>
       </div>
       <ul className="menu">
-        <li><Link to="/SearchByIng">SearchByIng</Link></li>
-        <li><Link to="/SearchByDish">SearchByDish</Link></li>
+        <li><Link to="/SearchByIng">Search By Ingredients</Link></li>
+        <li><Link to="/SearchByDish">Search By Dish</Link></li>
         <li><Link to="/About">About</Link></li>
       </ul>
     </div>
