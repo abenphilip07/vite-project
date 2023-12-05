@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import AsyncSelect from "react-select/async";
 import axios from "axios";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, Button } from "@chakra-ui/react";
-
+import { Box, Button, Grid, Image, Text } from "@chakra-ui/react";
 
 const loadOptions = (inputValue, callback) => {
   axios.get("https://recipe-search-88c61755925f.herokuapp.com/v1/listingredients").then((res) => {
@@ -21,8 +20,17 @@ const loadOptions = (inputValue, callback) => {
 
 const SearchByIng = () => {
   const [recipes, setRecipes] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleInputChange = (selectedOptions) => {
+    setSelectedOptions(selectedOptions); // Update state with selected options
+
+    if (selectedOptions.length === 0) {
+      // If no ingredients selected, display a message
+      setRecipes([]);
+      return;
+    }
+
     const ingredients = selectedOptions.map((option) => option.value).join(",");
     axios
       .get(`https://recipe-search-88c61755925f.herokuapp.com/v1/search?ingredients=${ingredients}`)
@@ -42,34 +50,37 @@ const SearchByIng = () => {
         pb={5}
       />
       <br />
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Title</Th>
-            <Th>Cook Time</Th>
-            <Th>Difficulty</Th>
-            <Th>Cuisine</Th>
-            <Th>Action</Th> {/* New column for the "View Recipe" button */}
-          </Tr>
-        </Thead>
-        <Tbody>
+      {selectedOptions.length === 0 ? (
+        <Text>No ingredients selected.</Text>
+      ) : recipes.length === 0 ? (
+        <Text>No matching dishes found.</Text>
+      ) : (
+        <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={4}>
           {recipes.map((recipe) => (
-            <Tr key={recipe.id}>
-              <Td>{recipe.title}</Td>
-              <Td>{recipe.cook_time}</Td>
-              <Td>{recipe.difficulty}</Td>
-              <Td>{recipe.cuisine_name}</Td>
-              <Td>
-              <Link to={`/recipe/${recipe.id}`}>
-                <Button colorScheme="teal" size="sm">
-                View Recipe
-                </Button>
-              </Link>
-              </Td>
-            </Tr>
+            <Box key={recipe.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
+              <Image
+                src={`https://f000.backblazeb2.com/file/recipeimagesdbms/${recipe.id}.jpg`}
+                alt={recipe.title}
+                objectFit="cover"
+                height="150px"
+              />
+              <Box p={4}>
+                <strong>{recipe.title}</strong>
+                <br />
+                <span>Cook Time: {recipe.cook_time}</span>
+                <br />
+                <span>Cuisine: {recipe.cuisine_name}</span>
+                <br />
+                <Link to={`/recipe/${recipe.id}`}>
+                  <Button colorScheme="teal" size="sm" mt={2}>
+                    View Recipe
+                  </Button>
+                </Link>
+              </Box>
+            </Box>
           ))}
-        </Tbody>
-      </Table>
+        </Grid>
+      )}
     </Box>
   );
 };
