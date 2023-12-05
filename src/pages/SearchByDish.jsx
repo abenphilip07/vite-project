@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import AsyncSelect from "react-select/async";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Link } from "@chakra-ui/react";
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
 
 const loadOptions = async (inputValue, callback) => {
   try {
@@ -60,9 +61,11 @@ const SearchByDish = () => {
               <Td>{selectedOption.difficulty}</Td>
               <Td>{selectedOption.cuisine_name}</Td>
               <Td>
-                <Link href={`/recipe/${selectedOption.id}`} isExternal>
-                  View Recipe
-                </Link>
+              <Link to={`/recipe/${selectedOption.id}`}>
+                <Button colorScheme="teal" size="sm">
+                 View Recipe
+                </Button>
+              </Link>
               </Td>
             </Tr>
           </Tbody>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Box, Heading, Text, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, Text, UnorderedList, ListItem,Divider } from "@chakra-ui/react";
 
 const RecipeInstructions = () => {
   const { id } = useParams();
@@ -23,20 +23,34 @@ const RecipeInstructions = () => {
   }
 
   return (
-    <Box p={5}>
-      <Heading mb={4}>{recipe.title}</Heading>
-      <Text mb={2}>Instructions: {recipe.instructions}</Text>
-      <Text mb={2}>Prep time: {recipe.prep_time}</Text>
-      <Text mb={2}>Cook time: {recipe.cook_time}</Text>
-      <Text mb={2}>Difficulty: {recipe.difficulty}</Text>
-      <Text mb={2}>Cuisine: {recipe.cuisine_name}</Text>
-      <Heading size="md" mb={2}>
-        Ingredients:
+    <Box p={8} borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Heading mb={4} fontSize="3xl" fontWeight="bold" color="red.500">
+        {recipe.title}
+      </Heading>
+      <Text mb={4} fontSize="lg" color="gray.600">
+        {recipe.instructions}
+      </Text>
+      <Divider mb={4} />
+      <Text fontSize="md" color="gray.700">
+        <strong>Prep Time:</strong> {recipe.prep_time}
+      </Text>
+      <Text fontSize="md" color="gray.700">
+        <strong>Cook Time:</strong> {recipe.cook_time}
+      </Text>
+      <Text fontSize="md" color="gray.700">
+        <strong>Difficulty:</strong> {recipe.difficulty}
+      </Text>
+      <Text fontSize="md" color="gray.700">
+        <strong>Cuisine:</strong> {recipe.cuisine_name}
+      </Text>
+      <Divider my={4} />
+      <Heading size="lg" mb={2} fontWeight="bold" color="teal.500">
+        Ingredients
       </Heading>
       <UnorderedList>
         {recipe.ingredients.map((ingredient, index) => (
-          <ListItem key={index}>
-            {ingredient.ingredient_name}: {ingredient.quantity}{" "}
+          <ListItem key={index} fontSize="md" color="gray.700">
+            {ingredient.ingredient_name}: {ingredient.quantity}{' '}
             {ingredient.unit}
           </ListItem>
         ))}

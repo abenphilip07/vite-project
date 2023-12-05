@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import AsyncSelect from "react-select/async";
 import axios from "axios";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from "@chakra-ui/react";
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, Button } from "@chakra-ui/react";
+
 
 const loadOptions = (inputValue, callback) => {
   axios.get("https://recipe-search-88c61755925f.herokuapp.com/v1/listingredients").then((res) => {
@@ -59,10 +60,11 @@ const SearchByIng = () => {
               <Td>{recipe.difficulty}</Td>
               <Td>{recipe.cuisine_name}</Td>
               <Td>
-                {/* Link to a new page with recipe instructions */}
-                <Link to={`/recipe/${recipe.id}`}>
-                  <button>View Recipe</button>
-                </Link>
+              <Link to={`/recipe/${recipe.id}`}>
+                <Button colorScheme="teal" size="sm">
+                View Recipe
+                </Button>
+              </Link>
               </Td>
             </Tr>
           ))}
