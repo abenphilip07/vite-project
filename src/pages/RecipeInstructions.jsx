@@ -32,12 +32,18 @@ const RecipeInstructions = () => {
           <Image src={imageUrl} alt={recipe.title} w="100%" h="auto" borderRadius="md" />
         </Box>
         <Box ml={{ md: 4 }}>
-          <Heading size="lg" color="red">
-            <strong>Instructions:</strong>
+
+          <Heading size="lg" mb={2} fontWeight="bold" color="teal.500">
+            Ingredients
           </Heading>
-          <Text mb={4} fontSize="lg" color="gray.600">
-            {recipe.instructions}
-          </Text>
+          <UnorderedList>
+            {recipe.ingredients.map((ingredient, index) => (
+              <ListItem key={index} fontSize="md" color="gray.700">
+                {ingredient.ingredient_name}: {ingredient.quantity} {ingredient.unit}
+              </ListItem>
+            ))}
+          </UnorderedList>
+
           <Divider mb={4} />
           <Text fontSize="md" color="gray.700">
             <strong>Prep Time:</strong> {recipe.prep_time}
@@ -52,16 +58,22 @@ const RecipeInstructions = () => {
             <strong>Cuisine:</strong> {recipe.cuisine_name}
           </Text>
           <Divider my={4} />
-          <Heading size="lg" mb={2} fontWeight="bold" color="teal.500">
-            Ingredients
+
+          <Heading size="lg" color="red">
+            <strong>Instructions:</strong>
           </Heading>
-          <UnorderedList>
-            {recipe.ingredients.map((ingredient, index) => (
-              <ListItem key={index} fontSize="md" color="gray.700">
-                {ingredient.ingredient_name}: {ingredient.quantity} {ingredient.unit}
-              </ListItem>
-            ))}
-          </UnorderedList>
+          <Text mb={4} fontSize="lg" color="gray.600">
+            {recipe.instructions
+              .split('.')
+              .filter(instruction => instruction.trim() !== '')
+              .map((instruction, index) => (
+                <div key={index}>
+                  <span>{index + 1}. </span>
+                  {instruction.trim()}
+                </div>
+              ))}
+          </Text>
+
         </Box>
       </Flex>
     </Box>
