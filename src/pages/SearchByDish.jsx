@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import AsyncSelect from "react-select/async";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
+import { Box, Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 const loadOptions = async (inputValue, callback) => {
   try {
-    const res = await axios.get(`https://recipe-search-88c61755925f.herokuapp.com/v1/recipes${inputValue ? `?title=${inputValue}` : ''}`);
+    const res = await axios.get(
+      `https://recipe-search-88c61755925f.herokuapp.com/v1/recipes${
+        inputValue ? `?title=${inputValue}` : ""
+      }`
+    );
     let data;
     if (res.data.recipes.length) {
       data = res.data.recipes.map((item) => ({
@@ -30,7 +34,8 @@ const SearchByDish = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
+    // Navigate to the recipe page when an option is clicked
+    window.location.href = `/recipe/${selectedOption.id}`;
   };
 
   return (
@@ -43,34 +48,6 @@ const SearchByDish = () => {
           onChange={handleChange}
         />
       </Box>
-      {selectedOption && (
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Title</Th>
-              <Th>Cook Time</Th>
-              <Th>Difficulty</Th>
-              <Th>Cuisine</Th>
-              <Th>Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>{selectedOption.label}</Td>
-              <Td>{selectedOption.cook_time}</Td>
-              <Td>{selectedOption.difficulty}</Td>
-              <Td>{selectedOption.cuisine_name}</Td>
-              <Td>
-              <Link to={`/recipe/${selectedOption.id}`}>
-                <Button colorScheme="teal" size="sm">
-                 View Recipe
-                </Button>
-              </Link>
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
-      )}
     </Box>
   );
 };
