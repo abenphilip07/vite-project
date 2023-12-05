@@ -9,9 +9,7 @@ const RecipeInstructions = () => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const res = await axios.get(
-        `https://recipe-search-88c61755925f.herokuapp.com/v1/recipes/${id}`
-      );
+      const res = await axios.get(`https://recipe-search-88c61755925f.herokuapp.com/v1/recipes/${id}`);
       setRecipe(res.data.recipe);
     };
 
@@ -22,8 +20,13 @@ const RecipeInstructions = () => {
     return <Box>Loading...</Box>;
   }
 
+  const imageUrl = `https://f000.backblazeb2.com/file/recipeimagesdbms/${recipe.ImageLink}`;
+
   return (
     <Box p={8} borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Box maxW="sm" overflow="hidden" mb={4}>
+        <Image src={imageUrl} alt={recipe.title} maxWidth="100%" />
+      </Box>
       <Heading mb={4} fontSize="3xl" fontWeight="bold" color="red.500">
         {recipe.title}
       </Heading>
@@ -44,9 +47,7 @@ const RecipeInstructions = () => {
         <strong>Cuisine:</strong> {recipe.cuisine_name}
       </Text>
       <Divider my={4} />
-      <Heading size="lg" mb={2} fontWeight="bold" color="teal.500">
-        Ingredients
-      </Heading>
+      <Heading size="lg" mb={2} fontWeight="bold" color="teal.500">Ingredients</Heading>
       <UnorderedList>
         {recipe.ingredients.map((ingredient, index) => (
           <ListItem key={index} fontSize="md" color="gray.700">
