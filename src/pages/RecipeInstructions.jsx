@@ -9,7 +9,7 @@ const RecipeInstructions = () => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const res = await axios.get(`https://recipe-search-88c61755925f.herokuapp.com/v1/recipes/${id}`);
+      const res = await axios.get(`https://recipe-go.fly.dev/v1/recipes/${id}`);
       setRecipe(res.data.recipe);
     };
 

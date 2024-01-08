@@ -5,7 +5,7 @@ import axios from "axios";
 import { Box, Button, Grid, Image, Text } from "@chakra-ui/react";
 
 const loadOptions = (inputValue, callback) => {
-  axios.get("https://recipe-search-88c61755925f.herokuapp.com/v1/listingredients").then((res) => {
+  axios.get("https://recipe-go.fly.dev/v1/listingredients").then((res) => {
     let data;
     if (inputValue) {
       data = res.data.ingredients
@@ -33,7 +33,7 @@ const SearchByIng = () => {
 
     const ingredients = selectedOptions.map((option) => option.value).join(",");
     axios
-      .get(`https://recipe-search-88c61755925f.herokuapp.com/v1/search?ingredients=${ingredients}`)
+      .get(`https://recipe-go.fly.dev/v1/search?ingredients=${ingredients}`)
       .then((res) => {
         setRecipes(res.data.recipes);
       });
