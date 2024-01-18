@@ -7,7 +7,7 @@ import { Box, Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 const loadOptions = async (inputValue, callback) => {
   try {
     const res = await axios.get(
-      `https://recipe-search-88c61755925f.herokuapp.com/v1/recipes${
+      `https://recipe-go.fly.dev/v1/recipes${
         inputValue ? `?title=${inputValue}` : ""
       }`
     );
